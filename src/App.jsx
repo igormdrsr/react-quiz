@@ -1,33 +1,56 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="quiz-container" id="quiz">
+        <div className="body">
+          <h2 className="question-title"></h2>
+          <ul className="answers">
+            <li className="input-wrapper">
+              <input
+                type="radio"
+                name="answer"
+                className="answer"
+                id="a"
+                value="a"
+              />
+              <label id="a_text" for="a"></label>
+            </li>
+            <li className="input-wrapper">
+              <input
+                type="radio"
+                name="answer"
+                className="answer"
+                id="b"
+                value="b"
+              />
+              <label id="b_text" for="b"></label>
+            </li>
+            <li className="input-wrapper">
+              <input
+                type="radio"
+                name="answer"
+                className="answer"
+                id="c"
+                value="c"
+              />
+              <label id="c_text" for="c"></label>
+            </li>
+            <li className="input-wrapper">
+              <input
+                type="radio"
+                name="answer"
+                className="answer"
+                id="d"
+                value="d"
+              />
+              <label id="d_text" for="d"></label>
+            </li>
+          </ul>
+        </div>
+        <button className="submit">Enviar</button>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   );
 }
