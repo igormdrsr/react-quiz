@@ -1,55 +1,52 @@
+import { useEffect, useState } from "react";
 import "./App.css";
+import quizData from "./quizData";
 
 function App() {
+  const [activeQuestion, setActiveQuestion] = useState(0);
+  const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
+  const [correctAnswersCounter, setCorrectAnswersCounter] = useState(0);
+  const [wrongAnswersCounter, setWrongAnswersCounter] = useState(0);
+  const { choices, correctAnswer } = quizData[activeQuestion];
+
+  // useEffect(() => {
+  //   console.log("certas: ", correctAnswersCounter);
+  //   console.log("erradas: ", wrongAnswersCounter);
+  // }, [correctAnswersCounter, wrongAnswersCounter]);
+
   return (
     <>
       <div className="quiz-container" id="quiz">
         <div className="body">
-          <h2 className="question-title"></h2>
+          <p>{`${activeQuestion + 1}/${quizData.length}`}</p>
+          <h2 className="question-title">
+            {quizData[activeQuestion].question}
+          </h2>
           <ul className="answers">
-            <li className="input-wrapper">
-              <input
-                type="radio"
-                name="answer"
-                className="answer"
-                id="a"
-                value="a"
-              />
-              <label id="a_text" for="a"></label>
-            </li>
-            <li className="input-wrapper">
-              <input
-                type="radio"
-                name="answer"
-                className="answer"
-                id="b"
-                value="b"
-              />
-              <label id="b_text" for="b"></label>
-            </li>
-            <li className="input-wrapper">
-              <input
-                type="radio"
-                name="answer"
-                className="answer"
-                id="c"
-                value="c"
-              />
-              <label id="c_text" for="c"></label>
-            </li>
-            <li className="input-wrapper">
-              <input
-                type="radio"
-                name="answer"
-                className="answer"
-                id="d"
-                value="d"
-              />
-              <label id="d_text" for="d"></label>
-            </li>
+            {choices.map((answer) => (
+              <li
+                className="item"
+                key={answer}
+                onClick={() => {
+                  setIsCorrectAnswer(answer === correctAnswer);
+                }}
+              >
+                <span>{answer}</span>
+              </li>
+            ))}
           </ul>
         </div>
-        <button className="submit">Enviar</button>
+        <button
+          className="submit"
+          onClick={() => {
+            setActiveQuestion((prev) => prev + 1);
+            isCorrectAnswer
+              ? setCorrectAnswersCounter((prev) => prev + 1)
+              : setWrongAnswersCounter((prev) => prev + 1);
+          }}
+        >
+          {activeQuestion === quizData.length - 1 ? "Finalizar" : "Próximo"}
+        </button>
       </div>
     </>
   );
