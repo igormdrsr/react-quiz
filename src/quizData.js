@@ -19,6 +19,16 @@ const quizData = [
     choices: ["Feijoada", "Churrasco", "Coxinha", "Pizza"],
     correctAnswer: "Feijoada",
   },
+  {
+    question: "Qual é a maior floresta tropical do mundo?",
+    choices: [
+      "Floresta Amazônica",
+      "Floresta do Congo",
+      "Floresta do Canadá",
+      "Floresta da Austrália",
+    ],
+    correctAnswer: "Floresta Amazônica",
+  },
 ];
 
 export default quizData;

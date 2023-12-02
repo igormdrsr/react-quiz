@@ -7,48 +7,66 @@ function App() {
   const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
   const [correctAnswersCounter, setCorrectAnswersCounter] = useState(0);
   const [wrongAnswersCounter, setWrongAnswersCounter] = useState(0);
-  const { choices, correctAnswer } = quizData[activeQuestion];
+  const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
 
-  // useEffect(() => {
-  //   console.log("certas: ", correctAnswersCounter);
-  //   console.log("erradas: ", wrongAnswersCounter);
-  // }, [correctAnswersCounter, wrongAnswersCounter]);
+  const { question, choices, correctAnswer } = quizData[activeQuestion];
+
+  useEffect(() => {
+    console.log("Certas: ", correctAnswersCounter);
+    console.log("Erradas: ", wrongAnswersCounter);
+  }, [correctAnswersCounter, wrongAnswersCounter]);
+
+  const hasSelectedAnswer = selectedAnswerIndex !== null;
+
+  const handleNextQuestion = () => {
+    setActiveQuestion((prev) => prev + 1);
+    isCorrectAnswer
+      ? setCorrectAnswersCounter((prev) => prev + 1)
+      : setWrongAnswersCounter((prev) => prev + 1);
+    setSelectedAnswerIndex(null);
+  };
+
+  const handleAnswerClick = (answer, index) => {
+    if (selectedAnswerIndex === index) {
+      setSelectedAnswerIndex(null);
+    } else {
+      setSelectedAnswerIndex(index);
+    }
+    setIsCorrectAnswer(answer === correctAnswer);
+  };
 
   return (
-    <>
+    <div className="container">
       <div className="quiz-container" id="quiz">
-        <div className="body">
-          <p>{`${activeQuestion + 1}/${quizData.length}`}</p>
-          <h2 className="question-title">
-            {quizData[activeQuestion].question}
-          </h2>
-          <ul className="answers">
-            {choices.map((answer) => (
-              <li
-                className="item"
-                key={answer}
-                onClick={() => {
-                  setIsCorrectAnswer(answer === correctAnswer);
-                }}
-              >
-                <span>{answer}</span>
-              </li>
-            ))}
-          </ul>
+        <div>
+          <span className="active-question">{activeQuestion + 1}</span>
+          <span className="total-question">/{quizData.length}</span>
         </div>
+        <h2 className="question-title">{question}</h2>
+        <ul className="answers">
+          {choices.map((answer, index) => (
+            <li
+              className={selectedAnswerIndex === index ? "selected-answer" : ""}
+              key={answer}
+              onClick={() => handleAnswerClick(answer, index)}
+            >
+              {answer}
+            </li>
+          ))}
+        </ul>
         <button
           className="submit"
-          onClick={() => {
-            setActiveQuestion((prev) => prev + 1);
-            isCorrectAnswer
-              ? setCorrectAnswersCounter((prev) => prev + 1)
-              : setWrongAnswersCounter((prev) => prev + 1);
-          }}
+          onClick={handleNextQuestion}
+          disabled={!hasSelectedAnswer}
         >
-          {activeQuestion === quizData.length - 1 ? "Finalizar" : "Próximo"}
+          {!hasSelectedAnswer
+            ? "Selecione uma resposta"
+            : activeQuestion === quizData.length - 1
+            ? "Finalizar"
+            : "Próximo"}
         </button>
       </div>
-    </>
+    </div>
   );
 }
 
